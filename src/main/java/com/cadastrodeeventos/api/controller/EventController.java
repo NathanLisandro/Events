@@ -3,6 +3,7 @@ package com.cadastrodeeventos.api.controller;
 import com.cadastrodeeventos.api.domain.event.Event;
 import com.cadastrodeeventos.api.domain.event.EventRequestDTO;
 import com.cadastrodeeventos.api.service.EventService;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ public class EventController {
         this.service = service;
     }
 
+    @PostMapping
     public Event criarEvento(EventRequestDTO event){
         return service.criarEvento(event);
     }
