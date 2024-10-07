@@ -38,6 +38,6 @@ public class EventController {
     }
 
     public ResponseEntity<List<EventResponseDTO>> getEvents(@RequestParam int page, @RequestParam int size) {
-        List<EventResponseDTO> allEvents = this.eventService.getAllEvents(page, size);
+        return ResponseEntity.ok(this.service.getAllEvents(page, size));
     }
 }
