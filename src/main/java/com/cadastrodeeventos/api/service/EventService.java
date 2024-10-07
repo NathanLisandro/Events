@@ -1,9 +1,12 @@
 package com.cadastrodeeventos.api.service;
 
+import com.cadastrodeeventos.api.domain.event.EventResponseDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
-import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import com.cadastrodeeventos.api.domain.event.Event;
 import com.cadastrodeeventos.api.domain.event.EventRequestDTO;
@@ -12,13 +15,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.nio.ByteBuffer;
-import java.nio.file.Paths;
 import java.util.Date;
-import java.util.Objects;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -76,6 +76,23 @@ public class EventService {
             return "";
         }
     }
+
+    public List<EventResponseDTO> getAllEvents(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Event> events = eventRepository.findAll(pageable);
+        return events.stream().map(event -> new EventResponseDTO(
+                        event.getId(),
+                        event.getTitle(),
+                        event.getDescription(),
+                        event.getDate(),
+                        event.getCity() != null ? event.getCity() : "",
+                        event.getUf() != null ? event.getUf() : "",
+                        event.getRemote(),
+                        event.getEventUrl(),
+                        event.getImgUrl())
+                )
+                .toList();
     }
+}
 
 

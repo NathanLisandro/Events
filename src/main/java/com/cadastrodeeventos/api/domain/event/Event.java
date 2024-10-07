@@ -29,4 +29,6 @@ public class Event {
     private String eventUrl;
     private Date date;
     private Boolean remote;
+    private String city;
+    private String uf;
 }

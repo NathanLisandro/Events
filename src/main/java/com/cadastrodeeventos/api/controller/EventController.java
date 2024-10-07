@@ -2,13 +2,17 @@ package com.cadastrodeeventos.api.controller;
 
 import com.cadastrodeeventos.api.domain.event.Event;
 import com.cadastrodeeventos.api.domain.event.EventRequestDTO;
+import com.cadastrodeeventos.api.domain.event.EventResponseDTO;
 import com.cadastrodeeventos.api.service.EventService;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/event")
@@ -33,4 +37,7 @@ public class EventController {
         return ResponseEntity.ok(newEvent);
     }
 
+    public ResponseEntity<List<EventResponseDTO>> getEvents(@RequestParam int page, @RequestParam int size) {
+        List<EventResponseDTO> allEvents = this.eventService.getAllEvents(page, size);
+    }
 }

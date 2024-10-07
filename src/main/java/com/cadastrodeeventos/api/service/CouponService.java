@@ -24,9 +24,10 @@ public class CouponService {
     public Coupon addCouponToEvent(UUID eventId, CouponRequestDTO data){
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventoNaoEncontradoException("Erro evento não foi encontrado!"));
         Coupon coupon = new Coupon();
-        coupon.setEvent(event);
         coupon.setDiscount(data.discount());
         coupon.setValid(new Date(data.valid()));
+        coupon.setEvent(event);
+
         return couponRepository.save(coupon);
     }
 }
